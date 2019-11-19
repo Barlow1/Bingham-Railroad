@@ -31,6 +31,14 @@ namespace BinghamRailroad.Controllers
         {
             return View();
         }
+        public IActionResult CreateAccount()
+        {
+            return View();
+        }
+        public IActionResult AccountInfo()
+        {
+            return View();
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

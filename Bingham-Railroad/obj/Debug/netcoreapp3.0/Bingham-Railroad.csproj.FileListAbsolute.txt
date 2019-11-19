@@ -35,3 +35,5 @@
 /Users/christianbarlow/Projects/Bingham-Railroad/Bingham-Railroad/obj/Debug/netcoreapp3.0/Razor/Views/Shared/_ValidationScriptsPartial.cshtml.g.cs
 /Users/christianbarlow/Projects/Bingham-Railroad/Bingham-Railroad/obj/Debug/netcoreapp3.0/Razor/Views/_ViewImports.cshtml.g.cs
 /Users/christianbarlow/Projects/Bingham-Railroad/Bingham-Railroad/obj/Debug/netcoreapp3.0/Razor/Views/_ViewStart.cshtml.g.cs
+/Users/christianbarlow/Projects/Bingham-Railroad/Bingham-Railroad/obj/Debug/netcoreapp3.0/Razor/Views/Home/AccountInfo.cshtml.g.cs
+/Users/christianbarlow/Projects/Bingham-Railroad/Bingham-Railroad/obj/Debug/netcoreapp3.0/Razor/Views/Home/CreateAccount.cshtml.g.cs
