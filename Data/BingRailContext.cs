@@ -11,5 +11,7 @@ namespace BinghamRailroad.Data {
         public DbSet<Station> Station { get; set; }
         public DbSet<Rider> Rider { get; set; }
         public DbSet<Amenity> Amenity { get; set; }
+        public DbSet<TrainAmenity> TrainAmenity { get; set; }
+        public DbSet<StationAmenity> StationAmenity { get; set; }
     }
 }
