@@ -7,6 +7,12 @@ namespace BinghamRailroad.Data {
             : base(options)
         {}
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Amenity>()
+                .HasAlternateKey(a => a.Name);
+        }
+
         public DbSet<Train> Train { get; set; }
         public DbSet<Station> Station { get; set; }
         public DbSet<Rider> Rider { get; set; }
