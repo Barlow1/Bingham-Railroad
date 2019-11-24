@@ -3,14 +3,16 @@ using System;
 using BinghamRailroad.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BinghamRailroad.Migrations
 {
     [DbContext(typeof(BingRailContext))]
-    partial class BingRailContextModelSnapshot : ModelSnapshot
+    [Migration("20191124175141_DropRider")]
+    partial class DropRider
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,32 +33,6 @@ namespace BinghamRailroad.Migrations
                     b.HasAlternateKey("Name");
 
                     b.ToTable("Amenity");
-                });
-
-            modelBuilder.Entity("BinghamRailroad.Models.Rider", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("FName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("LName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Password")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasAlternateKey("UserName");
-
-                    b.ToTable("Rider");
                 });
 
             modelBuilder.Entity("BinghamRailroad.Models.Route", b =>
