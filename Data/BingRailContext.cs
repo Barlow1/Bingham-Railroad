@@ -17,6 +17,12 @@ namespace BinghamRailroad.Data {
 
             modelBuilder.Entity<Rider>()
                 .HasAlternateKey(r => r.UserName);
+
+            modelBuilder.Entity<TrainAmenity>()
+                .HasAlternateKey( ta => new {ta.AmenityId, ta.TrainId});
+
+            modelBuilder.Entity<StationAmenity>()
+                .HasAlternateKey( sa => new {sa.AmenityId, sa.StationId});
         }
 
         public DbSet<Train> Train { get; set; }

@@ -3,14 +3,16 @@ using System;
 using BinghamRailroad.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BinghamRailroad.Migrations
 {
     [DbContext(typeof(BingRailContext))]
-    partial class BingRailContextModelSnapshot : ModelSnapshot
+    [Migration("20191124175513_DropAmenityJoinTables")]
+    partial class DropAmenityJoinTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,25 +104,6 @@ namespace BinghamRailroad.Migrations
                     b.ToTable("Station");
                 });
 
-            modelBuilder.Entity("BinghamRailroad.Models.StationAmenity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("AmenityId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("StationId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasAlternateKey("AmenityId", "StationId");
-
-                    b.ToTable("StationAmenity");
-                });
-
             modelBuilder.Entity("BinghamRailroad.Models.Ticket", b =>
                 {
                     b.Property<int>("Id")
@@ -150,25 +133,6 @@ namespace BinghamRailroad.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Train");
-                });
-
-            modelBuilder.Entity("BinghamRailroad.Models.TrainAmenity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("AmenityId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("TrainId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasAlternateKey("AmenityId", "TrainId");
-
-                    b.ToTable("TrainAmenity");
                 });
 #pragma warning restore 612, 618
         }
