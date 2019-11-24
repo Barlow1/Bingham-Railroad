@@ -3,14 +3,16 @@ using System;
 using BinghamRailroad.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BinghamRailroad.Migrations
 {
     [DbContext(typeof(BingRailContext))]
-    partial class BingRailContextModelSnapshot : ModelSnapshot
+    [Migration("20191124174706_DropStation")]
+    partial class DropStation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,23 +82,6 @@ namespace BinghamRailroad.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Route");
-                });
-
-            modelBuilder.Entity("BinghamRailroad.Models.Station", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasAlternateKey("Name");
-
-                    b.ToTable("Station");
                 });
 
             modelBuilder.Entity("BinghamRailroad.Models.StationAmenity", b =>
