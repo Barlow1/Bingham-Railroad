@@ -6,20 +6,26 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using BinghamRailroad.Models;
+using BinghamRailroad.Data;
 
 namespace BinghamRailroad.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly BingRailContext _context;
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, BingRailContext context)
         {
+            _context = context;
             _logger = logger;
         }
 
         public IActionResult Index()
         {
+            var allStations = (from Station in _context.Set<Station>()
+            select Station).ToList();
+            ViewData["Stations"] = allStations;
             return View();
         }
 
