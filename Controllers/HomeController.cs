@@ -38,18 +38,138 @@ namespace BinghamRailroad.Controllers
         {
             var OriginStationId = 141;
             var DestinationStationId = 88;
+            DateTime DepartureDate = DateTime.MinValue;
+            DateTime ArrivalDate =  DateTime.MinValue;
             
             // Get matching routes
-            var routes = 
-            (from route in _context.Set<Route>()
-            where route.OriginStation == OriginStationId
-            && route.DestinationStation == DestinationStationId
-            select new RouteInfoViewModel {
-                RouteId = route.Id,
-                DepartureTime = route.DepartureTime,
-                ArrivalTime = route.ArrivalTime,
-                TrainId = route.TrainId,
-            }).ToList();
+            List<RouteInfoViewModel> routes = new List<RouteInfoViewModel>();
+
+            if(DateTime.MinValue != DepartureDate)
+            {
+                if(0 != OriginStationId && 0 != DestinationStationId)
+                {
+                    routes = 
+                    (from route in _context.Set<Route>()
+                    where route.OriginStation == OriginStationId
+                    && route.DestinationStation == DestinationStationId
+                    && route.DepartureTime.Date == DepartureDate
+                    select new RouteInfoViewModel {
+                        RouteId = route.Id,
+                        DepartureTime = route.DepartureTime,
+                        ArrivalTime = route.ArrivalTime,
+                        TrainId = route.TrainId,
+                    }).ToList();
+                }
+                else if(0 != OriginStationId)
+                {
+                    routes = 
+                    (from route in _context.Set<Route>()
+                    where route.OriginStation == OriginStationId
+                    && route.DepartureTime.Date == DepartureDate
+                    select new RouteInfoViewModel {
+                        RouteId = route.Id,
+                        DepartureTime = route.DepartureTime,
+                        ArrivalTime = route.ArrivalTime,
+                        TrainId = route.TrainId,
+                    }).ToList();
+                }
+                else if(0 != DestinationStationId)
+                {
+                    routes = 
+                    (from route in _context.Set<Route>()
+                    where route.DestinationStation == DestinationStationId
+                    && route.DepartureTime.Date == DepartureDate
+                    select new RouteInfoViewModel {
+                        RouteId = route.Id,
+                        DepartureTime = route.DepartureTime,
+                        ArrivalTime = route.ArrivalTime,
+                        TrainId = route.TrainId,
+                    }).ToList();
+                }
+            }
+            else if(DateTime.MinValue != ArrivalDate)
+            {
+                if(0 != OriginStationId && 0 != DestinationStationId)
+                {
+                    routes = 
+                    (from route in _context.Set<Route>()
+                    where route.OriginStation == OriginStationId
+                    && route.DestinationStation == DestinationStationId
+                    && route.ArrivalTime.Date == ArrivalDate
+                    select new RouteInfoViewModel {
+                        RouteId = route.Id,
+                        DepartureTime = route.DepartureTime,
+                        ArrivalTime = route.ArrivalTime,
+                        TrainId = route.TrainId,
+                    }).ToList();
+                }
+                else if(0 != OriginStationId)
+                {
+                    routes = 
+                    (from route in _context.Set<Route>()
+                    where route.OriginStation == OriginStationId
+                    && route.ArrivalTime.Date == ArrivalDate
+                    select new RouteInfoViewModel {
+                        RouteId = route.Id,
+                        DepartureTime = route.DepartureTime,
+                        ArrivalTime = route.ArrivalTime,
+                        TrainId = route.TrainId,
+                    }).ToList();
+                }
+                else if(0 != DestinationStationId)
+                {
+                    routes = 
+                    (from route in _context.Set<Route>()
+                    where route.DestinationStation == DestinationStationId
+                    && route.ArrivalTime.Date == ArrivalDate
+                    select new RouteInfoViewModel {
+                        RouteId = route.Id,
+                        DepartureTime = route.DepartureTime,
+                        ArrivalTime = route.ArrivalTime,
+                        TrainId = route.TrainId,
+                    }).ToList();
+                }
+            }
+            else
+            {
+                if(0 != OriginStationId && 0 != DestinationStationId)
+                {
+                    routes = 
+                    (from route in _context.Set<Route>()
+                    where route.OriginStation == OriginStationId
+                    && route.DestinationStation == DestinationStationId
+                    select new RouteInfoViewModel {
+                        RouteId = route.Id,
+                        DepartureTime = route.DepartureTime,
+                        ArrivalTime = route.ArrivalTime,
+                        TrainId = route.TrainId,
+                    }).ToList();
+                }
+                else if(0 != OriginStationId)
+                {
+                    routes = 
+                    (from route in _context.Set<Route>()
+                    where route.OriginStation == OriginStationId
+                    select new RouteInfoViewModel {
+                        RouteId = route.Id,
+                        DepartureTime = route.DepartureTime,
+                        ArrivalTime = route.ArrivalTime,
+                        TrainId = route.TrainId,
+                    }).ToList();
+                }
+                else if(0 != DestinationStationId)
+                {
+                    routes = 
+                    (from route in _context.Set<Route>()
+                    where route.DestinationStation == DestinationStationId
+                    select new RouteInfoViewModel {
+                        RouteId = route.Id,
+                        DepartureTime = route.DepartureTime,
+                        ArrivalTime = route.ArrivalTime,
+                        TrainId = route.TrainId,
+                    }).ToList();
+                }
+            }
 
             // Get train amenities for each route
             foreach(var r in routes)
@@ -77,6 +197,7 @@ namespace BinghamRailroad.Controllers
                 where route.Id == r.RouteId
                 select ticket).Count();
             }
+
             Console.Write("Number of Routes: " + routes.Count());
             return View("Privacy", routes);
         }
