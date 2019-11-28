@@ -324,6 +324,12 @@ namespace BinghamRailroad.Models {
                             Id = 80,
                             TrainId = 332,
                             AmenityId = 13
+                        },
+                        new TrainAmenity
+                        {
+                            Id = 123,
+                            TrainId = 332,
+                            AmenityId = 35
                         }
                     );
                 }
@@ -389,8 +395,16 @@ namespace BinghamRailroad.Models {
                             TrainId = 1,
                             OriginStation = 141,
                             DestinationStation = 88,
-                            DepartureTime = new DateTime(2019, 11, 25, 12, 15, 00),
+                            DepartureTime = new DateTime(2019, 11, 25, 08, 15, 00),
                             ArrivalTime = new DateTime(2019, 12, 15, 14, 30, 00)
+                        },
+                        new Route {
+                            Id = 121,
+                            TrainId = 332,
+                            OriginStation = 141,
+                            DestinationStation = 88,
+                            DepartureTime = new DateTime(2019, 11, 30, 12, 15, 00),
+                            ArrivalTime = new DateTime(2019, 12, 15, 18, 30, 00)
                         },
                         new Route
                         {
@@ -471,6 +485,18 @@ namespace BinghamRailroad.Models {
                             Id = 33,
                             RiderId = 660,
                             RouteId = 666
+                        },
+                        new Ticket
+                        {
+                            Id = 123,
+                            RiderId = 660,
+                            RouteId = 121
+                        },
+                        new Ticket
+                        {
+                            Id = 124,
+                            RiderId = 899,
+                            RouteId = 121
                         }
                     );
                 }
