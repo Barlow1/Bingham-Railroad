@@ -225,7 +225,35 @@ namespace BinghamRailroad.Controllers
                 DepartureTime = route.DepartureTime,
                 ArrivalTime = route.ArrivalTime
             }).ToList();
-            
+
+            return View("Index");
+        }
+
+        public IActionResult ViewStationInformation(int StationId)
+        {
+            StationInfoViewModel stationInfo = new StationInfoViewModel();
+
+            stationInfo.Amenities = 
+            (from station in _context.Set<Station>()
+            join stationAmenity in _context.Set<StationAmenity>() on station.Id equals stationAmenity.StationId
+            join amenity in _context.Set<Amenity>() on stationAmenity.AmenityId equals amenity.Id
+            where station.Id == StationId
+            select amenity.Name).ToList();
+
+            stationInfo.IncomingConnections =
+            (from oStation in _context.Set<Station>()
+            join route in _context.Set<Route>() on oStation.Id equals route.OriginStation
+            join dStation in _context.Set<Station>() on route.DestinationStation equals dStation.Id
+            where dStation.Id == StationId
+            select oStation.Name).ToList();
+
+            stationInfo.OutgoingConnections = 
+            (from oStation in _context.Set<Station>()
+            join route in _context.Set<Route>() on oStation.Id equals route.OriginStation
+            join dStation in _context.Set<Station>() on route.DestinationStation equals dStation.Id
+            where oStation.Id == StationId
+            select dStation.Name).ToList();
+
             return View("Index");
         }
 
