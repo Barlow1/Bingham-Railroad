@@ -33,6 +33,7 @@ namespace BinghamRailroad.Controllers
             ViewData["Stations"] = allStations;
             return View();
         }
+
         [HttpGet]
         public IActionResult Routes()
         {
@@ -200,6 +201,13 @@ namespace BinghamRailroad.Controllers
 
             Console.Write("Number of Routes: " + routes.Count());
             return View("Privacy", routes);
+        }
+
+        public IActionResult BuyTicket(int RiderId, int RouteId)
+        {
+            _context.Add(new Ticket{RiderId = RiderId, RouteId = RouteId});
+            _context.SaveChanges();
+            return View("Index");
         }
 
         public IActionResult Privacy()
