@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 
-
 namespace BinghamRailroad.Models {
     public class RouteInfoViewModel {
         public int RouteId { get; set; }
