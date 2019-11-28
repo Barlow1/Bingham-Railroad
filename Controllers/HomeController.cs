@@ -210,6 +210,25 @@ namespace BinghamRailroad.Controllers
             return View("Index");
         }
 
+        public IActionResult ViewRides(int RiderId)
+        {
+            var rides = 
+            (from rider in _context.Set<Rider>()
+            join ticket in _context.Set<Ticket>() on rider.Id equals ticket.RiderId
+            join route in _context.Set<Route>() on ticket.RouteId equals route.Id
+            join oStation in _context.Set<Station>() on route.OriginStation equals oStation.Id
+            join dStation in _context.Set<Station>() on route.DestinationStation equals dStation.Id
+            where rider.Id == RiderId
+            select new YourRidesViewModel {
+                OriginStation = oStation.Name,
+                DestinationStation = dStation.Name,
+                DepartureTime = route.DepartureTime,
+                ArrivalTime = route.ArrivalTime
+            }).ToList();
+            
+            return View("Index");
+        }
+
         public IActionResult Privacy()
         {
             return View();
