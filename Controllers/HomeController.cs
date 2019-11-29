@@ -264,17 +264,57 @@ namespace BinghamRailroad.Controllers
         {
             return View();
         }
-        public IActionResult SignIn()
-        {
-            return View();
-        }
-        // public IActionResult CreateAccount()
+
+        // This method is called when the user navigates to the page where they
+        // enter their info to sign in.
+        // public IActionResult SignIn()
         // {
         //     return View();
         // }
 
-        // This method will be called when a user attempts to create an account.
+        // This method is called when the user clicks the sign in button on
+        // the sign in page.
         // [HttpPost]
+        public IActionResult SignIn(int temp)
+        {
+            string username = "SalUser";
+            string password = "password1";
+
+            var user = 
+            from rider in _context.Set<Rider>()
+            where rider.UserName == username
+            select rider;
+
+            if(user.Count() == 0)
+            {
+                Console.WriteLine("Failed to signin due to invalid username");
+                return View();
+            }
+
+            var hashedPassword = user.First().Password;
+
+            if(!Crypto.VerifyHashedPassword(hashedPassword, password))
+            {
+                Console.WriteLine("Failed to signin due to wrong password");
+                return View();
+            }
+            else
+            {
+                Console.WriteLine("Sign in successful");
+                HttpContext.Response.Cookies.Append("AuthUserId", user.First().Id.ToString());
+                return View();
+            }
+        }
+
+        // This method is called when the user navigates to the page where they
+        // enter their info to create an account.
+        public IActionResult CreateAccount()
+        {
+            return View();
+        }
+
+        // This method will be called when a user attempts to create an account.
+        [HttpPost]
         public IActionResult CreateAccount(int temp)
         {
             string lastName = "User";
