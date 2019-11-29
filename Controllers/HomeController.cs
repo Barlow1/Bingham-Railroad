@@ -7,11 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using BinghamRailroad.Models;
 using BinghamRailroad.Data;
-using Microsoft.EntityFrameworkCore;
-
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 
 namespace BinghamRailroad.Controllers
 {
@@ -34,6 +29,8 @@ namespace BinghamRailroad.Controllers
             return View();
         }
 
+        // This is the method that should get called whenever the user
+        // clicks search on the homepage.
         [HttpGet]
         public IActionResult Routes()
         {
@@ -203,6 +200,8 @@ namespace BinghamRailroad.Controllers
             return View("Privacy", routes);
         }
 
+        // This method gets called when user clicks Buy Ticket on search results
+        // page.
         public IActionResult BuyTicket(int RiderId, int RouteId)
         {
             _context.Add(new Ticket{RiderId = RiderId, RouteId = RouteId});
@@ -210,6 +209,8 @@ namespace BinghamRailroad.Controllers
             return View("Index");
         }
 
+        // This method gets called when a logged in user views their previous 
+        // "bought" rides.
         public IActionResult ViewRides(int RiderId)
         {
             var rides = 
@@ -229,6 +230,7 @@ namespace BinghamRailroad.Controllers
             return View("Index");
         }
 
+        // This method gets all the data for the Station Information screen. 
         public IActionResult ViewStationInformation(int StationId)
         {
             StationInfoViewModel stationInfo = new StationInfoViewModel();
