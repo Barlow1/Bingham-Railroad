@@ -267,10 +267,10 @@ namespace BinghamRailroad.Controllers
 
         // This method is called when the user navigates to the page where they
         // enter their info to sign in.
-        // public IActionResult SignIn()
-        // {
-        //     return View();
-        // }
+        public IActionResult SignIn()
+        {
+            return View();
+        }
 
         // This method is called when the user clicks the sign in button on
         // the sign in page.
