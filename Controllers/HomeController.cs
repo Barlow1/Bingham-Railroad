@@ -202,25 +202,28 @@ namespace BinghamRailroad.Controllers
         }
 
         // This method gets called when user clicks Buy Ticket on search results
-        // page.
-        public IActionResult BuyTicket(int RiderId, int RouteId)
+        // page. Redirects to sign in page if user is not signed in.
+        public IActionResult BuyTicket(int RouteId)
         {
-            _context.Add(new Ticket{RiderId = RiderId, RouteId = RouteId});
+            int riderId = AuthenticateUser();
+            _context.Add(new Ticket{RiderId = riderId, RouteId = RouteId});
             _context.SaveChanges();
             return View("Index");
         }
 
-        // This method gets called when a logged in user views their previous 
-        // "bought" rides.
-        public IActionResult ViewRides(int RiderId)
+        // This method gets called when a logged in user views their previously 
+        // "bought" rides. Redirects to sign in page if user is not signed in.
+        public IActionResult ViewRides()
         {
+            int riderId = AuthenticateUser();
+
             var rides = 
             (from rider in _context.Set<Rider>()
             join ticket in _context.Set<Ticket>() on rider.Id equals ticket.RiderId
             join route in _context.Set<Route>() on ticket.RouteId equals route.Id
             join oStation in _context.Set<Station>() on route.OriginStation equals oStation.Id
             join dStation in _context.Set<Station>() on route.DestinationStation equals dStation.Id
-            where rider.Id == RiderId
+            where rider.Id == riderId
             select new YourRidesViewModel {
                 OriginStation = oStation.Name,
                 DestinationStation = dStation.Name,
@@ -274,7 +277,7 @@ namespace BinghamRailroad.Controllers
 
         // This method is called when the user clicks the sign in button on
         // the sign in page.
-        // [HttpPost]
+        [HttpPost]
         public IActionResult SignIn(int temp)
         {
             string username = "SalUser";
@@ -363,6 +366,13 @@ namespace BinghamRailroad.Controllers
         }
         public IActionResult AccountInfo()
         {
+            int riderId = AuthenticateUser();
+            
+            var riderInfo = 
+            from rider in _context.Set<Rider>()
+            where rider.Id == riderId
+            select rider;
+
             return View();
         }
 
@@ -370,6 +380,21 @@ namespace BinghamRailroad.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        // Returns the user id if the user has been authenticated, otherwise redirects to 
+        // sign in page and returns -1.
+        private int AuthenticateUser()
+        {
+            if(HttpContext.Request.Cookies.ContainsKey("AuthUserId"))
+            {
+                return Int32.Parse(HttpContext.Request.Cookies["AuthUserId"]);
+            }
+            else
+            {
+                RedirectToAction("SignIn");
+                return -1;
+            }
         }
     }
 }
