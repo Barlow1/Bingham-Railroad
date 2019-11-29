@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using BinghamRailroad.Models;
 using BinghamRailroad.Data;
+using System.Web.Helpers;
 
 namespace BinghamRailroad.Controllers
 {
@@ -267,8 +268,57 @@ namespace BinghamRailroad.Controllers
         {
             return View();
         }
-        public IActionResult CreateAccount()
+        // public IActionResult CreateAccount()
+        // {
+        //     return View();
+        // }
+
+        // This method will be called when a user attempts to create an account.
+        // [HttpPost]
+        public IActionResult CreateAccount(int temp)
         {
+            string lastName = "User";
+            string firstName = "Sally";
+            string username = "SalUser";
+            string password = "password1";
+
+            // Validate param presence.
+            if(lastName == null ||
+               firstName == null ||
+               username == null || 
+               password == null)
+            {
+                Console.WriteLine("Failed account creation due to missing parameters");
+                return View("Create");
+            }
+            if(lastName == "" ||
+               firstName == "" ||
+               username == "" || 
+               password == "")
+            {
+                Console.WriteLine("Failed account creation due to missing parameters");
+                return View("Create");
+            }
+
+            // Make sure username is unique. DB checks this also but we can fail more 
+            // gracefully if we catch it here.
+            int unique = (from rider in _context.Set<Rider>()
+                       where rider.UserName == username
+                       select rider).Count();
+            if(unique != 0)
+            {
+                Console.WriteLine("Falied account creation due to username already being in use");
+                return View("Create");
+            }
+
+            _context.Add(new Rider {
+                FName = firstName,
+                LName = lastName,
+                UserName = username,
+                Password = Crypto.HashPassword(password)
+            });
+            _context.SaveChanges();
+
             return View();
         }
         public IActionResult AccountInfo()
