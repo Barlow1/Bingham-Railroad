@@ -7,16 +7,3 @@
 
 <p>Use this page to detail your site's privacy policy.</p>
 
-@{
-    foreach(var m in @Model)
-    {
-        Console.WriteLine("ID: " + m.RouteId);
-        Console.WriteLine("Depart: " + m.DepartureTime);
-        Console.WriteLine("Arrive: " + m.ArrivalTime);
-        Console.WriteLine("Open Seats: " + m.OpenSeats);
-        foreach(var a in m.Amenities)
-        {
-            Console.WriteLine(a);
-        }
-    }
-}

@@ -197,7 +197,6 @@ namespace BinghamRailroad.Controllers
                 select ticket).Count();
             }
 
-            Console.Write("Number of Routes: " + routes.Count());
             return View("Privacy", routes);
         }
 
@@ -231,6 +230,15 @@ namespace BinghamRailroad.Controllers
                 ArrivalTime = route.ArrivalTime
             }).ToList();
 
+            var displayName = 
+            from rider in _context.Set<Rider>()
+            where rider.Id == riderId
+            select new {
+                First = rider.FName,
+                Last = rider.LName
+            };
+
+            ViewData["DisplayName"] = displayName.First().ToString();
             return View("Index");
         }
 
@@ -260,6 +268,11 @@ namespace BinghamRailroad.Controllers
             where oStation.Id == StationId
             select dStation.Name).ToList();
 
+            ViewData["DisplayStation"] = 
+            (from station in _context.Set<Station>()
+            where station.Id == StationId
+            select station.Name).First().ToString();
+            
             return View("Index");
         }
 
