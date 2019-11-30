@@ -5,7 +5,7 @@ namespace BinghamRailroad.Data {
     public class BingRailContext : DbContext {
         public BingRailContext (DbContextOptions<BingRailContext> options)
             : base(options)
-        {}
+        { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

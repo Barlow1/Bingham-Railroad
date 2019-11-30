@@ -1,21 +1,35 @@
-﻿@{
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
+<div class="text-center my-5">
     <h1 class="display-4">Welcome to Bingham Railroad!</h1>
+    <h5>Book Tickets</h5>
 </div>
-<div class="row">
-    <p class="col-1">From </p> <input class="col-md-4" type="search" />
-    <p class="col-2">Departure </p>  <input class="col-md-4" type="date" />
-</div>
-<div class="row">
-    <p class="col-1">To </p> <input class="col-md-4" type="search" />
-    <p class="col-2">Arrival </p>  <input class="col-md-4" type="date" />
-</div>
-
-<h2>All Stations:</h2>
-@foreach(var station in ViewData["Stations"] as List<Station>)
-{
-    <p>@station.Name</p>
-}
+<form asp-action="Routes" method="post">
+    <div class="row my-5">
+        <p class="col-1">From </p> <select class="col-md-4" name="OriginStation" required>
+            <option value="">Select a departure station</option>
+            @foreach (var station in ViewData["Stations"] as List<Station>)
+            {
+                <option value=@station.Id>@station.Name - @station.Id</option>
+            }
+        </select>
+        <p class="col-2">Departure </p>  <input class="col-md-4" type="date" name="DepartureTime"/>
+    </div>
+    <div class="row my-5">
+        <p class="col-1">To </p> <select class="col-md-4" name="DestinationStation" required>
+            <option value="">Select an arrival station</option>
+            @foreach (var station in ViewData["Stations"] as List<Station>)
+            {
+                <option value=@station.Id>@station.Name - @station.Id</option>
+            }
+        </select>
+        <p class="col-2">Arrival </p>  <input class="col-md-4" type="date" name="ArrivalTime" />
+    </div>
+    <div class="row justify-content-md-center my-5">
+        <button class="btn btn-primary" type="submit" name="submit">Search</button>
+    </div>
+   
+</form>

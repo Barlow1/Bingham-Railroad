@@ -1,0 +1,39 @@
+﻿@model System.Collections.Generic.List<BinghamRailroad.Models.RouteInfoViewModel>
+
+@{
+    ViewData["Title"] = "Routes from " + ViewData["OriginStationName"] + " to " + ViewData["DestinationStationName"];
+}
+<h4>@ViewData["Title"]</h4>
+@foreach (var route in @Model as List<RouteInfoViewModel>)
+{
+        <div class="card my-2">
+            <div class="card-header">
+                <h5>Route Info</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <p>Depart Time:&nbsp</p>
+                    <span>@route.DepartureTime</span>
+                </div>
+                <div class="row">
+                    <p>Arrival Time:&nbsp</p>
+                    <span>@route.ArrivalTime</span>
+                </div>
+                <div class="row">
+                    <p>Open Seats:&nbsp</p>
+                    <span>@route.OpenSeats</span>
+                </div>
+                <div class="row">
+                    <p>Amenitites:&nbsp</p>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3">
+                        @foreach (var amenity in route.Amenities)
+                        {
+                            <p>@amenity</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+}

@@ -32,14 +32,22 @@ namespace BinghamRailroad.Controllers
 
         // This is the method that should get called whenever the user
         // clicks search on the homepage.
-        [HttpGet]
-        public IActionResult Routes()
+        [HttpPost]
+        public IActionResult Routes(Route searchRoute)
         {
-            var OriginStationId = 141;
-            var DestinationStationId = 88;
-            DateTime DepartureDate = DateTime.MinValue;
-            DateTime ArrivalDate =  DateTime.MinValue;
-            
+            var OriginStationId = searchRoute.OriginStation;
+            var DestinationStationId = searchRoute.DestinationStation;
+            DateTime DepartureDate = searchRoute.DepartureTime;
+            DateTime ArrivalDate = searchRoute.ArrivalTime;
+
+            ViewData["OriginStationName"] = (from station in _context.Set<Station>()
+                                          where station.Id == searchRoute.OriginStation
+                                          select station.Name).Single();
+
+            ViewData["DestinationStationName"] = (from station in _context.Set<Station>()
+                                               where station.Id == searchRoute.DestinationStation
+                                               select station.Name).Single();
+
             // Get matching routes
             List<RouteInfoViewModel> routes = new List<RouteInfoViewModel>();
 
@@ -197,7 +205,7 @@ namespace BinghamRailroad.Controllers
                 select ticket).Count();
             }
 
-            return View("Privacy", routes);
+            return View("Routes", routes);
         }
 
         // This method gets called when user clicks Buy Ticket on search results
