@@ -26,6 +26,7 @@ namespace BinghamRailroad
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddHttpContextAccessor();
 
             services.AddDbContext<BingRailContext>(options =>
             options.UseSqlite(Configuration.GetConnectionString("BingRailContext")));

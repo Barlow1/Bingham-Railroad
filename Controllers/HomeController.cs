@@ -396,6 +396,15 @@ namespace BinghamRailroad.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        public IActionResult SignOut()
+        {
+            if(Request.Cookies.ContainsKey("AuthUserId"))
+            {
+                Response.Cookies.Delete("AuthUserId");
+            }
+            return RedirectToAction("Index");
+        }
+
         // Returns the user id if the user has been authenticated, otherwise redirects to
         // sign in page and returns -1.
         private int AuthenticateUser()
