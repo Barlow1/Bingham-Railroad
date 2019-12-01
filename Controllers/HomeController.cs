@@ -55,7 +55,7 @@ namespace BinghamRailroad.Controllers
             {
                 if(0 != OriginStationId && 0 != DestinationStationId)
                 {
-                    routes = 
+                    routes =
                     (from route in _context.Set<Route>()
                     where route.OriginStation == OriginStationId
                     && route.DestinationStation == DestinationStationId
@@ -69,7 +69,7 @@ namespace BinghamRailroad.Controllers
                 }
                 else if(0 != OriginStationId)
                 {
-                    routes = 
+                    routes =
                     (from route in _context.Set<Route>()
                     where route.OriginStation == OriginStationId
                     && route.DepartureTime.Date == DepartureDate
@@ -82,7 +82,7 @@ namespace BinghamRailroad.Controllers
                 }
                 else if(0 != DestinationStationId)
                 {
-                    routes = 
+                    routes =
                     (from route in _context.Set<Route>()
                     where route.DestinationStation == DestinationStationId
                     && route.DepartureTime.Date == DepartureDate
@@ -98,7 +98,7 @@ namespace BinghamRailroad.Controllers
             {
                 if(0 != OriginStationId && 0 != DestinationStationId)
                 {
-                    routes = 
+                    routes =
                     (from route in _context.Set<Route>()
                     where route.OriginStation == OriginStationId
                     && route.DestinationStation == DestinationStationId
@@ -112,7 +112,7 @@ namespace BinghamRailroad.Controllers
                 }
                 else if(0 != OriginStationId)
                 {
-                    routes = 
+                    routes =
                     (from route in _context.Set<Route>()
                     where route.OriginStation == OriginStationId
                     && route.ArrivalTime.Date == ArrivalDate
@@ -125,7 +125,7 @@ namespace BinghamRailroad.Controllers
                 }
                 else if(0 != DestinationStationId)
                 {
-                    routes = 
+                    routes =
                     (from route in _context.Set<Route>()
                     where route.DestinationStation == DestinationStationId
                     && route.ArrivalTime.Date == ArrivalDate
@@ -141,7 +141,7 @@ namespace BinghamRailroad.Controllers
             {
                 if(0 != OriginStationId && 0 != DestinationStationId)
                 {
-                    routes = 
+                    routes =
                     (from route in _context.Set<Route>()
                     where route.OriginStation == OriginStationId
                     && route.DestinationStation == DestinationStationId
@@ -154,7 +154,7 @@ namespace BinghamRailroad.Controllers
                 }
                 else if(0 != OriginStationId)
                 {
-                    routes = 
+                    routes =
                     (from route in _context.Set<Route>()
                     where route.OriginStation == OriginStationId
                     select new RouteInfoViewModel {
@@ -166,7 +166,7 @@ namespace BinghamRailroad.Controllers
                 }
                 else if(0 != DestinationStationId)
                 {
-                    routes = 
+                    routes =
                     (from route in _context.Set<Route>()
                     where route.DestinationStation == DestinationStationId
                     select new RouteInfoViewModel {
@@ -218,13 +218,13 @@ namespace BinghamRailroad.Controllers
             return View("Index");
         }
 
-        // This method gets called when a logged in user views their previously 
+        // This method gets called when a logged in user views their previously
         // "bought" rides. Redirects to sign in page if user is not signed in.
         public IActionResult ViewRides()
         {
             int riderId = AuthenticateUser();
 
-            var rides = 
+            var rides =
             (from rider in _context.Set<Rider>()
             join ticket in _context.Set<Ticket>() on rider.Id equals ticket.RiderId
             join route in _context.Set<Route>() on ticket.RouteId equals route.Id
@@ -238,7 +238,7 @@ namespace BinghamRailroad.Controllers
                 ArrivalTime = route.ArrivalTime
             }).ToList();
 
-            var displayName = 
+            var displayName =
             from rider in _context.Set<Rider>()
             where rider.Id == riderId
             select new {
@@ -250,12 +250,12 @@ namespace BinghamRailroad.Controllers
             return View("Index");
         }
 
-        // This method gets all the data for the Station Information screen. 
+        // This method gets all the data for the Station Information screen.
         public IActionResult ViewStationInformation(int StationId)
         {
             StationInfoViewModel stationInfo = new StationInfoViewModel();
 
-            stationInfo.Amenities = 
+            stationInfo.Amenities =
             (from station in _context.Set<Station>()
             join stationAmenity in _context.Set<StationAmenity>() on station.Id equals stationAmenity.StationId
             join amenity in _context.Set<Amenity>() on stationAmenity.AmenityId equals amenity.Id
@@ -269,18 +269,18 @@ namespace BinghamRailroad.Controllers
             where dStation.Id == StationId
             select oStation.Name).ToList();
 
-            stationInfo.OutgoingConnections = 
+            stationInfo.OutgoingConnections =
             (from oStation in _context.Set<Station>()
             join route in _context.Set<Route>() on oStation.Id equals route.OriginStation
             join dStation in _context.Set<Station>() on route.DestinationStation equals dStation.Id
             where oStation.Id == StationId
             select dStation.Name).ToList();
 
-            ViewData["DisplayStation"] = 
+            ViewData["DisplayStation"] =
             (from station in _context.Set<Station>()
             where station.Id == StationId
             select station.Name).First().ToString();
-            
+
             return View("Index");
         }
 
@@ -304,7 +304,7 @@ namespace BinghamRailroad.Controllers
             string username = "SalUser";
             string password = "password1";
 
-            var user = 
+            var user =
             from rider in _context.Set<Rider>()
             where rider.UserName == username
             select rider;
@@ -339,40 +339,23 @@ namespace BinghamRailroad.Controllers
 
         // This method will be called when a user attempts to create an account.
         [HttpPost]
-        public IActionResult CreateAccount(int temp)
+        public IActionResult CreateAccount(Rider newRider)
         {
-            string lastName = "User";
-            string firstName = "Sally";
-            string username = "SalUser";
-            string password = "password1";
+            string lastName = newRider.FName;
+            string firstName = newRider.LName;
+            string username = newRider.UserName;
+            string password = newRider.Password;
 
-            // Validate param presence.
-            if(lastName == null ||
-               firstName == null ||
-               username == null || 
-               password == null)
-            {
-                Console.WriteLine("Failed account creation due to missing parameters");
-                return View("Create");
-            }
-            if(lastName == "" ||
-               firstName == "" ||
-               username == "" || 
-               password == "")
-            {
-                Console.WriteLine("Failed account creation due to missing parameters");
-                return View("Create");
-            }
-
-            // Make sure username is unique. DB checks this also but we can fail more 
+            // Make sure username is unique. DB checks this also but we can fail more
             // gracefully if we catch it here.
             int unique = (from rider in _context.Set<Rider>()
                        where rider.UserName == username
                        select rider).Count();
             if(unique != 0)
             {
-                Console.WriteLine("Falied account creation due to username already being in use");
-                return View("Create");
+                ViewData["Error"] = "Account creation failed. Username " +
+                                    username + " is already in use.";
+                return View("CreateAccount");
             }
 
             _context.Add(new Rider {
@@ -383,13 +366,13 @@ namespace BinghamRailroad.Controllers
             });
             _context.SaveChanges();
 
-            return View();
+            return RedirectToAction("Index");
         }
         public IActionResult AccountInfo()
         {
             int riderId = AuthenticateUser();
-            
-            var riderInfo = 
+
+            var riderInfo =
             from rider in _context.Set<Rider>()
             where rider.Id == riderId
             select rider;
@@ -403,7 +386,7 @@ namespace BinghamRailroad.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        // Returns the user id if the user has been authenticated, otherwise redirects to 
+        // Returns the user id if the user has been authenticated, otherwise redirects to
         // sign in page and returns -1.
         private int AuthenticateUser()
         {

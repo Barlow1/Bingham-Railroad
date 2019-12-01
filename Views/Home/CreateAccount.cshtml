@@ -1,7 +1,50 @@
-﻿@{
-    ViewData["Title"] = "Create Account";
+@model BinghamRailroad.Models.Rider
+
+@{
+    ViewData["Title"] = "CreateAccount";
 }
-<div class="row justify-content-center">
-    <h4 class="col-lg-4">Already have an account? 
-    </h4> <a class="float-left" asp-area="" asp-controller="Home" asp-action="SignIn">Sign In</a>
+
+<h1>CreateAccount</h1>
+@{
+    if(ViewData["Error"] != null)
+    {
+        <div class="alert alert-danger">@ViewData["Error"]</div>
+    }
+}
+<h4>Rider</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateAccount">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FName" class="control-label"></label>
+                <input asp-for="FName" class="form-control" />
+                <span asp-validation-for="FName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LName" class="control-label"></label>
+                <input asp-for="LName" class="form-control" />
+                <span asp-validation-for="LName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserName" class="control-label"></label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label"></label>
+                <input asp-for="Password" class="form-control" type="password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="CreateAccount" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
 </div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
