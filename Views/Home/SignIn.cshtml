@@ -1,6 +1,34 @@
-﻿@{
+﻿@model BinghamRailroad.Models.UserSignInViewModel
+
+@{
     ViewData["Title"] = "Sign In";
 }
+
 <h1>@ViewData["Title"]</h1>
 
-<p>Sign in to Bingham Railroad!</p>
+@{
+    if(ViewData["Error"] != null)
+    {
+        <div class="alert alert-danger">@ViewData["Error"]</div>
+    }
+}
+
+@using (Html.BeginForm("SignIn", "Home", FormMethod.Post))
+{
+    <table>
+        <tr>
+            <td>Username</td>
+        </tr>
+        <tr>
+            <td>@Html.TextBoxFor(m => m.Username)</td>
+        </tr>
+        <tr>
+            <td class="control-label">Password</td>
+        </tr>
+        <tr>
+            <td>@Html.PasswordFor(m => m.Password)</td>
+        </tr>
+    </table>
+    <input type="submit" value="Sign In" class="btn btn-primary" />
+}
+

@@ -299,10 +299,21 @@ namespace BinghamRailroad.Controllers
         // This method is called when the user clicks the sign in button on
         // the sign in page.
         [HttpPost]
-        public IActionResult SignIn(int temp)
+        public IActionResult SignIn(UserSignInViewModel userInfo)
         {
-            string username = "SalUser";
-            string password = "password1";
+            if(userInfo.Username == null || userInfo.Username == "")
+            {
+                ViewData["Error"] = "Username must be provided";
+                return View();
+            }
+            else if(userInfo.Password == null || userInfo.Password == "")
+            {
+                ViewData["Error"] = "Password must be provided";
+                return View();
+            }
+
+            string username = userInfo.Username;
+            string password = userInfo.Password;
 
             var user =
             from rider in _context.Set<Rider>()
@@ -311,7 +322,7 @@ namespace BinghamRailroad.Controllers
 
             if(user.Count() == 0)
             {
-                Console.WriteLine("Failed to signin due to invalid username");
+                ViewData["Error"] = "Failed to sign in due to invalid username";
                 return View();
             }
 
@@ -319,14 +330,13 @@ namespace BinghamRailroad.Controllers
 
             if(!Crypto.VerifyHashedPassword(hashedPassword, password))
             {
-                Console.WriteLine("Failed to signin due to wrong password");
+                ViewData["Error"] = "Failed to sign in due to wrong password";
                 return View();
             }
             else
             {
-                Console.WriteLine("Sign in successful");
                 HttpContext.Response.Cookies.Append("AuthUserId", user.First().Id.ToString());
-                return View();
+                return RedirectToAction("Index");
             }
         }
 
