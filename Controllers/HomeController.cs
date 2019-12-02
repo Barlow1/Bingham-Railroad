@@ -216,6 +216,12 @@ namespace BinghamRailroad.Controllers
         public IActionResult BookTicket(int RouteId)
         {
             int riderId = AuthenticateUser();
+            if(riderId == -1)
+            {
+                Console.WriteLine("Hit the if condition");
+                return RedirectToAction("SignIn");
+            }
+            Console.WriteLine("Rider Id :" + riderId);
             _context.Add(new Ticket{RiderId = riderId, RouteId = RouteId});
             _context.SaveChanges();
             return View("Success");
@@ -419,7 +425,6 @@ namespace BinghamRailroad.Controllers
             }
             else
             {
-                RedirectToAction("SignIn");
                 return -1;
             }
         }
