@@ -1,0 +1,47 @@
+﻿@model BinghamRailroad.Models.StationInfoViewModel;
+
+@{
+    ViewData["Title"] = "Station Information for " + ViewData["DisplayStation"];
+}
+<h4>@ViewData["Title"]</h4>
+@{
+    var stationInfo = @Model;
+    <div class="card my-2">
+        <div class="card-header">
+            <h5>Route Info</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-lg-3">
+                    <p>Incoming Connections:&nbsp</p>
+                </div>
+                <div class="col-lg-3">
+                    <p>Outgoing Connections:&nbsp</p>
+                </div>
+                <div class="col-lg-3">
+                    <p>Amenitites:&nbsp</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3">
+                    @foreach (var iConnection in stationInfo.IncomingConnections)
+                    {
+                        <p>@iConnection</p>
+                    }
+                </div>
+                <div class="col-lg-3">
+                    @foreach (var oConnection in stationInfo.OutgoingConnections)
+                    {
+                        <p>@oConnection</p>
+                    }
+                </div>
+                <div class="col-lg-3">
+                    @foreach (var amenity in stationInfo.Amenities)
+                    {
+                        <p>@amenity</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+}

@@ -1,7 +1,47 @@
-﻿@{
-    ViewData["Title"] = "Account Info";
+﻿@model System.Collections.Generic.List<BinghamRailroad.Models.YourRidesViewModel>
+
+@{
+        ViewData["Title"] = "Hi " + ViewData["DisplayName"];
 
 }
 <div class="text-center">
-    <h1 class="display-4">Your account info</h1>
+    <h1 class="display-4">@ViewData["Title"]</h1>
 </div>
+<h3>Your Rides</h3>
+@{ 
+    if (Model.Count == 0)
+    {
+        <div>
+            <div class="row">
+                <h4>You have no rides yet :(</h4>
+            </div>
+
+        </div>
+    }
+    }
+@foreach (var ticket in @Model as List<YourRidesViewModel>)
+{
+<div class="card my-2">
+        <div class="card-header">
+            <h5>Ride Info</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <p>Depart Time:&nbsp</p>
+                <span>@ticket.DepartureTime</span>
+            </div>
+            <div class="row">
+                <p>Arrival Time:&nbsp</p>
+                <span>@ticket.ArrivalTime</span>
+            </div>
+            <div class="row">
+                <p>Origin Station:&nbsp</p>
+                <span>@ticket.OriginStation</span>
+            </div>
+            <div class="row">
+                <p>Destination Station:&nbsp</p>
+                <span>@ticket.DestinationStation</span>
+            </div>
+        </div>
+    </div>
+}

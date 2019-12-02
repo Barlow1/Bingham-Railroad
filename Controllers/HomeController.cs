@@ -47,6 +47,9 @@ namespace BinghamRailroad.Controllers
             ViewData["DestinationStationName"] = (from station in _context.Set<Station>()
                                                where station.Id == searchRoute.DestinationStation
                                                select station.Name).Single();
+            ViewData["OriginStationId"] = OriginStationId;
+
+            ViewData["DestinationStationId"] = DestinationStationId;
 
             // Get matching routes
             List<RouteInfoViewModel> routes = new List<RouteInfoViewModel>();
@@ -210,12 +213,12 @@ namespace BinghamRailroad.Controllers
 
         // This method gets called when user clicks Buy Ticket on search results
         // page. Redirects to sign in page if user is not signed in.
-        public IActionResult BuyTicket(int RouteId)
+        public IActionResult BookTicket(int RouteId)
         {
             int riderId = AuthenticateUser();
             _context.Add(new Ticket{RiderId = riderId, RouteId = RouteId});
             _context.SaveChanges();
-            return View("Index");
+            return View("Success");
         }
 
         // This method gets called when a logged in user views their previously
@@ -246,8 +249,9 @@ namespace BinghamRailroad.Controllers
                 Last = rider.LName
             };
 
-            ViewData["DisplayName"] = displayName.First().ToString();
-            return View("Index");
+            ViewData["DisplayName"] = displayName.First().First + " " + displayName.First().Last;
+
+            return View("AccountInfo", rides);
         }
 
         // This method gets all the data for the Station Information screen.
@@ -281,7 +285,7 @@ namespace BinghamRailroad.Controllers
             where station.Id == StationId
             select station.Name).First().ToString();
 
-            return View("Index");
+            return View("StationInfo", stationInfo);
         }
 
         public IActionResult Privacy()
